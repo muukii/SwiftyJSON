@@ -658,6 +658,10 @@ extension JSON {
             switch self.type {
             case .Number, .Bool:
                 return self.object as? NSNumber
+            case .String:
+                let formatter = NSNumberFormatter()
+                formatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+                return formatter.numberFromString(self.object as String)
             default:
                 return nil
             }
