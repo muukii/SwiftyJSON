@@ -577,6 +577,10 @@ extension JSON: BooleanType {
             switch self.type {
             case .Bool:
                 return self.object.boolValue
+            case .String:
+                let formatter = NSNumberFormatter()
+                formatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+                return formatter.numberFromString(self.object as String)?.boolValue
             default:
                 return nil
             }
