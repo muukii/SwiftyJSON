@@ -745,8 +745,10 @@ extension JSON: Swift.BooleanType {
     public var bool: Bool? {
         get {
             switch self.type {
-            case .Bool:
+            case .Bool, .Number:
                 return self.rawNumber.boolValue
+            case .String:
+                return self.number?.boolValue
             default:
                 return nil
             }
@@ -828,6 +830,11 @@ extension JSON {
             switch self.type {
             case .Number, .Bool:
                 return self.rawNumber
+            case .String:
+                let formatter = NSNumberFormatter()
+                formatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+				formatter.locale = NSLocale(localeIdentifier:"en_US_POSIX")
+                return formatter.numberFromString(self.object as! String)
             default:
                 return nil
             }
@@ -860,6 +867,7 @@ extension JSON {
         }
     }
 }
+
 
 //MARK: - Null
 extension JSON {
@@ -1339,5 +1347,37 @@ public func >=(lhs: NSNumber, rhs: NSNumber) -> Bool {
         return false
     default:
         return lhs.compare(rhs) != NSComparisonResult.OrderedAscending
+    }
+}
+
+extension JSON {
+    public var date: NSDate? {
+        get {
+            if let value = self.double {
+                return NSDate(timeIntervalSince1970: value)
+            } else {
+                return nil
+            }
+        }
+        set {
+            if newValue != nil {
+                self.object = NSNumber(double: newValue!.timeIntervalSince1970)
+            } else {
+                self.object = NSNull()
+            }
+        }
+    }
+    
+    public var dateValue: NSDate {
+        get {
+            if let value = self.double {
+                return NSDate(timeIntervalSince1970: value)
+            } else {
+                return NSDate(timeIntervalSince1970: 0)
+            }
+        }
+        set {
+            self.object = NSNumber(double: newValue.timeIntervalSince1970)
+        }
     }
 }
