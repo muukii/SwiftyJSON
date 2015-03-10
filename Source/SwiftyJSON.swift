@@ -743,7 +743,7 @@ extension JSON: Swift.BooleanType {
     public var bool: Bool? {
         get {
             switch self.type {
-            case .Bool:
+            case .Bool, .Number, .String:
                 return self.rawNumber.boolValue
             default:
                 return nil
@@ -826,6 +826,11 @@ extension JSON {
             switch self.type {
             case .Number, .Bool:
                 return self.rawNumber
+            case .String:
+                let formatter = NSNumberFormatter()
+                formatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+				formatter.locale = NSLocale(localeIdentifier:"en_US_POSIX")
+                return formatter.numberFromString(self.object as String)
             default:
                 return nil
             }
@@ -858,6 +863,7 @@ extension JSON {
         }
     }
 }
+
 
 //MARK: - Null
 extension JSON {
