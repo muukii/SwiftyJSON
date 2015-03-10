@@ -1345,3 +1345,35 @@ public func >=(lhs: NSNumber, rhs: NSNumber) -> Bool {
         return lhs.compare(rhs) != NSComparisonResult.OrderedAscending
     }
 }
+
+extension JSON {
+    public var date: NSDate? {
+        get {
+            if let value = self.double {
+                return NSDate(timeIntervalSince1970: value)
+            } else {
+                return nil
+            }
+        }
+        set {
+            if newValue != nil {
+                self.object = NSNumber(double: newValue!.timeIntervalSince1970)
+            } else {
+                self.object = NSNull()
+            }
+        }
+    }
+    
+    public var dateValue: NSDate {
+        get {
+            if let value = self.double {
+                return NSDate(timeIntervalSince1970: value)
+            } else {
+                return NSDate(timeIntervalSince1970: 0)
+            }
+        }
+        set {
+            self.object = NSNumber(double: newValue.timeIntervalSince1970)
+        }
+    }
+}
