@@ -167,7 +167,7 @@ extension JSON: SequenceType{
     
     :returns: Return a *generator* over the elements of this *sequence*.
     */
-    public func generate() -> GeneratorOf <(String, JSON)> {
+    public func generate() -> AnyGenerator <(String, JSON)> {
         switch self.type {
         case .Array:
             let array_ = object as! [AnyObject]
