@@ -830,7 +830,7 @@ extension JSON {
                 let formatter = NSNumberFormatter()
                 formatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
 				formatter.locale = NSLocale(localeIdentifier:"en_US_POSIX")
-                return formatter.numberFromString(self.object as String)
+                return formatter.numberFromString(self.object as! String)
             default:
                 return nil
             }
