@@ -743,8 +743,10 @@ extension JSON: Swift.BooleanType {
     public var bool: Bool? {
         get {
             switch self.type {
-            case .Bool, .Number, .String:
+            case .Bool, .Number:
                 return self.rawNumber.boolValue
+            case .String:
+                return self.number?.boolValue
             default:
                 return nil
             }
