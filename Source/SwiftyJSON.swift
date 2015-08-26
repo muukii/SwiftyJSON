@@ -606,7 +606,7 @@ extension JSON: Swift.BooleanType {
             case .String:
                 let formatter = NSNumberFormatter()
                 formatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
-                return formatter.numberFromString(self.object as String)?.boolValue
+                return formatter.numberFromString(self.object as! String)?.boolValue
             default:
                 return nil
             }
